@@ -56,36 +56,192 @@ library(knitr) # for kable table formating
 library(haven) # import and export 'SPSS', 'Stata' and 'SAS' Files
 library(readxl) # import excel files
 library(CODreports) # custom report functions
+library(lsr)
 ```
 
 ## Step 2: Load data
 
 ```{r}
-d1 = read.csv()
+d1 = read.csv("~/Documents/set_jCSIW/data/data1.csv", stringsAsFactors = F)
+d2 = read.csv("~/Documents/set_jCSIW/data/data2.csv", stringsAsFactors = F)
+d3 = read.csv("~/Documents/set_jCSIW/data/data3.csv", stringsAsFactors = F)
 ```
 
 ## Step 3: Tidy data
 
 ```{r}
+d.tidy = left_join(d1, d2)
 ```
 
 ## Step 4: Run analysis
 
-### Pre-processing
-
-[you can remove this section if no pre-processing is required]
-
-```{r}
-```
-
 ### Descriptive statistics
 
 ```{r}
+#table 1
+d.tidy$Transcription_Fluency = as.numeric(d.tidy$Transcription_Fluency)
+m_fluency = mean(d.tidy$Transcription_Fluency[d.tidy$Condition_0.Standard == "0"], na.rm=T)
+sd_fluency = sd(d.tidy$Transcription_Fluency[d.tidy$Condition_0.Standard == "0"], na.rm = T)
+m_fluency2 = mean(d.tidy$Transcription_Fluency[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+sd_fluency2 = sd(d.tidy$Transcription_Fluency[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+
+m_numwords = mean(d.tidy$Number_of_Words[d.tidy$Condition_0.Standard == "0"], na.rm=T)
+sd_numwords = sd(d.tidy$Number_of_Words[d.tidy$Condition_0.Standard == "0"], na.rm = T)
+m_numwords2 = mean(d.tidy$Number_of_Words[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+sd_numwords2 = sd(d.tidy$Number_of_Words[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+
+m_lengthl = mean(d.tidy$Letters_Per_Word[d.tidy$Condition_0.Standard == "0"], na.rm=T)
+sd_lengthl = sd(d.tidy$Letters_Per_Word[d.tidy$Condition_0.Standard == "0"], na.rm = T)
+m_lengthl2 = mean(d.tidy$Letters_Per_Word[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+sd_lengthl2 = sd(d.tidy$Letters_Per_Word[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+
+m_lengths = mean(d.tidy$Syllables_Per_Word[d.tidy$Condition_0.Standard == "0"], na.rm=T)
+sd_lengths = sd(d.tidy$Syllables_Per_Word[d.tidy$Condition_0.Standard == "0"], na.rm = T)
+m_lengths2 = mean(d.tidy$Syllables_Per_Word[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+sd_lengths2 = sd(d.tidy$Syllables_Per_Word[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+
+m_sentence = mean(d.tidy$Sentence_count[d.tidy$Condition_0.Standard == "0"], na.rm=T)
+sd_sentence = sd(d.tidy$Sentence_count[d.tidy$Condition_0.Standard == "0"], na.rm = T)
+m_sentence2 = mean(d.tidy$Sentence_count[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+sd_sentence2 = sd(d.tidy$Sentence_count[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+
+m_wordsper = mean(d.tidy$words_per_sentence[d.tidy$Condition_0.Standard == "0"], na.rm=T)
+sd_wordsper = sd(d.tidy$words_per_sentence[d.tidy$Condition_0.Standard == "0"], na.rm = T)
+m_wordsper2 = mean(d.tidy$words_per_sentence[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+sd_wordsper2 = sd(d.tidy$words_per_sentence[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+
+m_paragraph = mean(d.tidy$paragraph_count[d.tidy$Condition_0.Standard == "0"], na.rm=T)
+sd_paragraph = sd(d.tidy$paragraph_count[d.tidy$Condition_0.Standard == "0"], na.rm = T)
+m_paragraph2 = mean(d.tidy$paragraph_count[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+sd_paragraph2 = sd(d.tidy$paragraph_count[d.tidy$Condition_0.Standard == "1"], na.rm = T)
+
+t1 = as.table(matrix(c(m_fluency,sd_fluency,m_fluency2,sd_fluency2,m_numwords,sd_numwords,m_numwords2,sd_numwords2,m_lengthl, sd_lengthl,m_lengthl2,sd_lengthl2,m_lengths,sd_lengths,m_lengths2,sd_lengths2,m_sentence,sd_sentence, m_sentence2,sd_sentence2, m_wordsper, sd_wordsper,m_wordsper2,sd_wordsper2,m_paragraph,sd_paragraph,m_paragraph2, sd_paragraph2), byrow=T, ncol=4,
+              dimnames=list(measure=c("transcription fluency","number of words", "word length (letters)", "world length (syllables)", "sentence count", "words per sentence", "paragraph count"),
+                            statistic=c("m (standard)", "sd (standard)", "m (delay)", "sd (delay)"))))
+print(t1)
+
+#table 2
+m_ttr = mean(d.tidy$Type.Token_Ratio[d.tidy$Condition_0.Standard == "0"])
+sd_ttr = sd(d.tidy$Type.Token_Ratio[d.tidy$Condition_0.Standard == "0"])
+m_ttr2 = mean(d.tidy$Type.Token_Ratio[d.tidy$Condition_0.Standard == "1"])
+sd_ttr2 = sd(d.tidy$Type.Token_Ratio[d.tidy$Condition_0.Standard == "1"])
+
+m_mtld = mean(d.tidy$Measure_of_Textual_Lexical_Diversity_MTLD[d.tidy$Condition_0.Standard == "0"])
+sd_mtld = sd(d.tidy$Measure_of_Textual_Lexical_Diversity_MTLD[d.tidy$Condition_0.Standard == "0"])
+m_mtld2 = mean(d.tidy$Measure_of_Textual_Lexical_Diversity_MTLD[d.tidy$Condition_0.Standard == "1"])
+sd_mtld2 = sd(d.tidy$Measure_of_Textual_Lexical_Diversity_MTLD[d.tidy$Condition_0.Standard == "1"])
+
+m_vocd = mean(d.tidy$vocdD_Lexical_Diversity[d.tidy$Condition_0.Standard == "0"])
+sd_vocd = sd(d.tidy$vocdD_Lexical_Diversity[d.tidy$Condition_0.Standard == "0"])
+m_vocd2 = mean(d.tidy$vocdD_Lexical_Diversity[d.tidy$Condition_0.Standard == "1"])
+sd_vocd2 = sd(d.tidy$vocdD_Lexical_Diversity[d.tidy$Condition_0.Standard == "1"])
+
+m_logfreq = mean(d.tidy$Word_Frequency_all_words_log[d.tidy$Condition_0.Standard == "0"])
+sd_logfreq = sd(d.tidy$Word_Frequency_all_words_log[d.tidy$Condition_0.Standard == "0"])
+m_logfreq2 = mean(d.tidy$Word_Frequency_all_words_log[d.tidy$Condition_0.Standard == "1"])
+sd_logfreq2 = sd(d.tidy$Word_Frequency_all_words_log[d.tidy$Condition_0.Standard == "1"])
+
+m_rawfreq = mean(d.tidy$Word_Frequency_content_words_raw[d.tidy$Condition_0.Standard == "0"])
+sd_rawfreq = sd(d.tidy$Word_Frequency_content_words_raw[d.tidy$Condition_0.Standard == "0"])
+m_rawfreq2 = mean(d.tidy$Word_Frequency_content_words_raw[d.tidy$Condition_0.Standard == "1"])
+sd_rawfreq2 = sd(d.tidy$Word_Frequency_content_words_raw[d.tidy$Condition_0.Standard == "1"])
+
+t2 = as.table(matrix(c(m_ttr, sd_ttr, m_ttr2, sd_ttr2, m_mtld, sd_mtld, m_mtld2, sd_mtld2,m_vocd,sd_vocd,m_vocd2,sd_vocd2,m_logfreq,sd_logfreq,m_logfreq2, sd_logfreq2, m_rawfreq,sd_rawfreq, m_rawfreq2,sd_rawfreq2), byrow=T, ncol=4,
+              dimnames=list(measure=c("type-token ratio", "measure of textual lexical diversity","vocd-D", "log frequency all words", "word frequency content words (raw)"),
+                            statistic=c("m (standard)", "sd (standard)", "m (delay)", "sd (delay)"))))
+print(t2)
+
+
+#table 3
+m_ttr3 = mean(d.tidy$type.token_ratio_TAACO[d.tidy$Condition_0.Standard == "0"])
+sd_ttr3 = sd(d.tidy$type.token_ratio_TAACO[d.tidy$Condition_0.Standard == "0"])
+m_ttr4 = mean(d.tidy$type.token_ratio_TAACO[d.tidy$Condition_0.Standard == "1"])
+sd_ttr4 = sd(d.tidy$type.token_ratio_TAACO[d.tidy$Condition_0.Standard == "1"])
+
+m_allsub = mean(d.tidy$SUBTLEXusFreq_ALL_Words_Log[d.tidy$Condition_0.Standard == "0"])
+sd_allsub = sd(d.tidy$SUBTLEXusFreq_ALL_Words_Log[d.tidy$Condition_0.Standard == "0"])
+m_allsub2 = mean(d.tidy$SUBTLEXusFreq_ALL_Words_Log[d.tidy$Condition_0.Standard == "1"])
+sd_allsub2 = sd(d.tidy$SUBTLEXusFreq_ALL_Words_Log[d.tidy$Condition_0.Standard == "1"])
+
+m_allbnc = mean(d.tidy$BNCWrittenFreq_AllWords_Log[d.tidy$Condition_0.Standard == "0"])
+sd_allbnc = sd(d.tidy$BNCWrittenFreq_AllWords_Log[d.tidy$Condition_0.Standard == "0"])
+m_allbnc2 = mean(d.tidy$BNCWrittenFreq_AllWords_Log[d.tidy$Condition_0.Standard == "1"])
+sd_allbnc2 = sd(d.tidy$BNCWrittenFreq_AllWords_Log[d.tidy$Condition_0.Standard == "1"])
+
+m_contentsub = mean(d.tidy$SUBTLEXusFreq_Content_Words_Log[d.tidy$Condition_0.Standard == "0"])
+sd_contentsub = sd(d.tidy$SUBTLEXusFreq_Content_Words_Log[d.tidy$Condition_0.Standard == "0"])
+m_contentsub2 = mean(d.tidy$SUBTLEXusFreq_Content_Words_Log[d.tidy$Condition_0.Standard == "1"])
+sd_contentsub2 = sd(d.tidy$SUBTLEXusFreq_Content_Words_Log[d.tidy$Condition_0.Standard == "1"])
+
+m_contentbnc = mean(d.tidy$BNCWrittenFreq_Content_Words_Log[d.tidy$Condition_0.Standard == "0"])
+sd_contentbnc = sd(d.tidy$BNCWrittenFreq_Content_Words_Log[d.tidy$Condition_0.Standard == "0"])
+m_contentbnc2 = mean(d.tidy$BNCWrittenFreq_Content_Words_Log[d.tidy$Condition_0.Standard == "1"])
+sd_contentbnc2 = sd(d.tidy$BNCWrittenFreq_Content_Words_Log[d.tidy$Condition_0.Standard == "1"])
+
+t3 = as.table(matrix(c(m_ttr3, sd_ttr3, m_ttr4, sd_ttr4, m_allsub, sd_allsub, m_allsub2, sd_allsub2, m_allbnc, sd_allbnc, m_allbnc2,sd_allbnc2,m_contentsub, sd_contentsub, m_contentsub2, sd_contentsub2, m_contentbnc, sd_contentbnc, m_contentbnc2, sd_contentbnc2), byrow=T, ncol=4,
+              dimnames=list(measure=c("type-token ratio", "log frequency all words(SUBTLEXus)", "log frequency all words (BNC)", "log frequency content words (SUBTLEXus)", "log frequency content words (BNC)"),
+                            statistic=c("m (standard)", "sd (standard)", "m (delay)", "sd (delay)"))))
+print(t3)
+
 ```
 
 ### Inferential statistics
 
 ```{r}
+#3.1 Descriptive essay indices
+rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1
+effect = cohensD(Transcription_Fluency ~ Condition_0.Standard, data = d.tidy); effect
+
+rs2 = summary(lm(Number_of_Words ~ Condition_0.Standard, d.tidy)); rs2
+effect2 = cohensD(Number_of_Words ~ Condition_0.Standard, data = d.tidy); effect2
+
+rs3 = summary(lm(Letters_Per_Word ~ Condition_0.Standard, d.tidy)); rs3
+effect3 = cohensD(Letters_Per_Word ~ Condition_0.Standard, data = d.tidy); effect3
+
+rs4 = summary(lm(Syllables_Per_Word ~ Condition_0.Standard, d.tidy)); rs4
+effect4 = cohensD(Syllables_Per_Word ~ Condition_0.Standard, data = d.tidy); effect4
+
+rs5 = summary(lm(Sentence_count ~ Condition_0.Standard, d.tidy)); rs5
+effect5 = cohensD(Sentence_count ~ Condition_0.Standard, data = d.tidy); effect5
+
+rs6 = summary(lm(words_per_sentence ~ Condition_0.Standard, d.tidy)); rs6
+effect6 = cohensD(words_per_sentence ~ Condition_0.Standard, data = d.tidy); effect6
+
+rs7 = summary(lm(paragraph_count ~ Condition_0.Standard, d.tidy)); rs7
+effect7 = cohensD(paragraph_count ~ Condition_0.Standard, data = d.tidy); effect7
+
+
+#3.2 Lexical sophistication
+rs8 = summary(lm(Type.Token_Ratio ~ Condition_0.Standard, d.tidy)); rs8
+effect8 = cohensD(Type.Token_Ratio ~ Condition_0.Standard, data = d.tidy); effect8
+
+rs9 = summary(lm(vocdD_Lexical_Diversity ~ Condition_0.Standard, d.tidy)); rs9
+effect9 = cohensD(vocdD_Lexical_Diversity ~ Condition_0.Standard, data = d.tidy); effect9
+
+rs10 = summary(lm(Measure_of_Textual_Lexical_Diversity_MTLD ~ Condition_0.Standard, d.tidy)); rs10
+effect10 = cohensD(Measure_of_Textual_Lexical_Diversity_MTLD ~ Condition_0.Standard, data = d.tidy); effect10
+
+rs11 = summary(lm(Word_Frequency_all_words_log ~ Condition_0.Standard, d.tidy)); rs11
+effect11 = cohensD(Word_Frequency_all_words_log ~ Condition_0.Standard, data = d.tidy); effect11
+
+rs12 = summary(lm(Word_Frequency_content_words_raw ~ Condition_0.Standard, d.tidy)); rs12
+effect12 = cohensD(Word_Frequency_content_words_raw ~ Condition_0.Standard, data = d.tidy); effect12
+
+#TAACO/TAALES
+rs13 = summary(lm(type.token_ratio_TAACO ~ Condition_0.Standard, d.tidy)); rs13
+effect13 = cohensD(type.token_ratio_TAACO ~ Condition_0.Standard, data = d.tidy); effect13
+
+rs14 = summary(lm(SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, d.tidy)); rs14
+effect14 = cohensD(SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, data = d.tidy); effect14
+
+rs15 = summary(lm(BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, d.tidy)); rs15
+effect15 = cohensD(BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, data = d.tidy); effect15
+
+rs16 = summary(lm(SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, d.tidy)); rs16
+effect16 = cohensD(SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, data = d.tidy); effect16
+
+rs17 = summary(lm(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, d.tidy)); rs17
+effect17 = cohensD(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, data = d.tidy); effect17
 ```
 
 ## Step 5: Conclusion
