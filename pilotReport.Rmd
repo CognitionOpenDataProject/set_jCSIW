@@ -15,12 +15,28 @@ output:
 -------
 
 #### Methods summary: 
-[Write a brief summary of the methods underlying the target outcomes written in your own words]
+A total of 202 students at at university were recruited to participate in the experiment. 2 participants were ultimately excluded because of failure to complete the study, making for a total sample of 200 university students. 
+
+Participants were randomly assigned to one of two experimental conditions in a between-subjects design: standard typing condition vs. keyboard delay condition. Participants were given 50 minutes to write an essay about cellphone use in schools, and these essays were meant to be argumentative in nature, at least 500 words long, and participants were told that their essays would be graded. After a 3 minute practice session to get familiarized with the keyboard by typing a sentence, participants wrote their essay. After the 50 minutes ended, participants filled out NASA Task Load Index (NASA-TLX), which measures subjective fluency. 
+
+The keyboard manipulation was conducted using a QWERTY keyboard and a software program that manipulated the delay between keystrokes. Following pilot tests, the minimum delay that was set using this software was 100ms. The program, as well as Inputlog key-logger (another program), recorded keystroke activity.
+
+The times between consevutive lower case letters, as recorded by the keyboard delay program, was used as a measure of transcription fluency. Outliers (more than 2.5 SD away from the mean) were removed within individual participants - 1.42% of keystrokes were eliminated for 199 participants (one participant typed the essay in all caps). Using the Coh-Metrix text analyzer, essays were analyzed for lexical diversity and word frequency. The Tool for the Automatic Analysis of Lexical Sophistication (TAALES) and the Tool for the Automatic Analysis of Cohesion (TAACO) were also used. 
+
+Lexical diversity was defined as the range of vocabulary in a passage of text. Specifically, this means the ratio of unique words to the number of words in a passage of text. A type-token ration (TTR), a measure of textual lexical diversity (MTLD), and vocd-D are calculated using the Coh-Matrix to operationalize this construct. TTR was also calculated using tbe TAACO measure. Word frequency is defined as how often an individual word occurs in English, with the assumption that passages of text that contain words that are infrequent are more lexically sophisticated. The Coh-Matrix uses the CELEX database to calculate the log-frequency for all words used as well as the raw frequencies for content words. SUBTLEXus and the British National Corpus databases are used by TAALES to assess word frequency as well. Further, three independent raters who were blind to condition scored the essays using a 6 point scale similar to that used by the ACT writing test. All raters were trained using the same rubric and a pool of argumentative essays separate from this study. Average interrater reliability reached r > .5 on these training trials, and when the essays from this study were scored, the interrater reliability was adequate, r(198) = .56, p < .001. The mean of the two raters' scores with the highest correlation were used as the ultimate score assigned to each essay. The score closest to the third rater's score was used in the event that the differences between the two raters were greater than or equal to 1.
 
 ------
 
 #### Target outcomes: 
-[Insert the target outcomes identified in targetOutcomes.md]  
+> A series of one-way ANOVAs were performed with condition (standard vs. keyboard delay) as the factor and transcription fluency, lexical sophistication, subjective fluency, and essay quality as the dependent variables.
+
+> 3.1. Descriptive essay indices
+
+> Condition affected transcription fluency such that it was more fluent in the standard condition, F(1, 197) = 110.14, MSE = 2796.13, p < 0.001, d = 1.50. While there were more words typed in the standard condition, F(1, 198) = 6.35, MSE = 14329.49, p = 0.013, d = 0.36, essays in the delay condition contained longer words (letters and syllables per word), Fs > 4.17, ps < 0.043, ds > 0.28. There were no other differences (see Table 1).
+
+> 3.2. Lexical sophistication
+
+> Condition had a significant effect on type-token ratio, F(1, 198) = 9.70, MSE = 0.002, p = 0.002, d = 0.44, and vocd-D (marginally), F(1, 198) = 3.29, MSE = 264.62, p = 0.071, d = 0.26, such that they were higher in the delay condition. There was no effect on the measure of textual lexical diversity, F(1, 198) = 2.13, MSE = 239.96, p = 0.146, d = 0.21, though the pattern of means was in the same direction. Moreover, condition had an effect on both word frequency indices such that they were lower in the delay condition, log word frequency-all words, F(1, 198) = 4.49, MSE = 0.01, p = 0.035, d = 0.30, raw word frequency-content words, F(1, 198) = 4.74, MSE = 0.02, p = 0.031, d = 0.31 (see Table 2). The results were similar when lexical diversity and word frequency from TAACO and TAALES were used (see Table 3).
 
 ------
 
@@ -45,6 +61,7 @@ library(CODreports) # custom report functions
 ## Step 2: Load data
 
 ```{r}
+d1 = read.csv()
 ```
 
 ## Step 3: Tidy data
