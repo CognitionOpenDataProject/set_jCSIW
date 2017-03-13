@@ -230,8 +230,8 @@ div.tocify {
 <div id="start-date-031217" class="section level4">
 <h4>Start date: 03/12/17</h4>
 </div>
-<div id="end-date-insert-end-date---use-us-format" class="section level4">
-<h4>End date: [Insert end date - use US format]</h4>
+<div id="end-date-031217" class="section level4">
+<h4>End date: 03/12/17</h4>
 <hr />
 </div>
 <div id="methods-summary" class="section level4">
@@ -274,18 +274,21 @@ library(tables)</code></pre>
 </div>
 <div id="step-2-load-data" class="section level2">
 <h2>Step 2: Load data</h2>
+<p>First, we load the datasets necessary to carry out this reproduction of results.</p>
 <pre class="r"><code>d1 = read.csv(&quot;~/Documents/set_jCSIW/data/data1.csv&quot;, stringsAsFactors = F)
 d2 = read.csv(&quot;~/Documents/set_jCSIW/data/data2.csv&quot;, stringsAsFactors = F)
 d3 = read.csv(&quot;~/Documents/set_jCSIW/data/data3.csv&quot;, stringsAsFactors = F)</code></pre>
 </div>
 <div id="step-3-tidy-data" class="section level2">
 <h2>Step 3: Tidy data</h2>
+<p>Next, we join the two datasets to recreate the full dataset that was likely used in the original analyses.</p>
 <pre class="r"><code>d.tidy = left_join(d1, d2)</code></pre>
 </div>
 <div id="step-4-run-analysis" class="section level2">
 <h2>Step 4: Run analysis</h2>
 <div id="descriptive-statistics" class="section level3">
 <h3>Descriptive statistics</h3>
+<p>Here, we calculate the means and standard deviations of each of the recorded DV’s broken down by condition in order to attempt to recreate Medimorec et al.’s reported table of means and standard deviations.</p>
 <pre class="r"><code>#table 1
 d.tidy$Transcription_Fluency = as.numeric(d.tidy$Transcription_Fluency)
 m_fluency = mean(d.tidy$Transcription_Fluency[d.tidy$Condition_0.Standard == &quot;0&quot;], na.rm=T)
@@ -436,6 +439,7 @@ print(t3)</code></pre>
 </div>
 <div id="inferential-statistics" class="section level3">
 <h3>Inferential statistics</h3>
+<p>Now we move onto reproducing Medimorec et al.’s main analyses. We first attempt to reproduce their analyses of descriptive essay indices, noting where there are discrepancies between our obtained results and Medimorec et al.’s reported results.</p>
 <pre class="r"><code>#3.1 Descriptive essay indices
 rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</code></pre>
 <pre><code>## 
@@ -459,6 +463,10 @@ rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</co
 ## F-statistic: 110.1 on 1 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>effect = cohensD(Transcription_Fluency ~ Condition_0.Standard, data = d.tidy); effect</code></pre>
 <pre><code>## [1] 1.48795</code></pre>
+<pre class="r"><code>compareValues(reportedValue = 1.50, obtainedValue = 1.49, isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (1.5) and the obtained value (1.49) differed by 0.67%&quot;</code></pre>
+<pre class="r"><code>compareValues(reportedValue = 2796.13, obtainedValue = mean(52.88^2), isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (2796.13) and the obtained value (2796.2944) differed by 0.01%&quot;</code></pre>
 <pre class="r"><code>rs2 = summary(lm(Number_of_Words ~ Condition_0.Standard, d.tidy)); rs2</code></pre>
 <pre><code>## 
 ## Call:
@@ -480,6 +488,8 @@ rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</co
 ## F-statistic: 6.347 on 1 and 198 DF,  p-value: 0.01255</code></pre>
 <pre class="r"><code>effect2 = cohensD(Number_of_Words ~ Condition_0.Standard, data = d.tidy); effect2</code></pre>
 <pre><code>## [1] 0.35629</code></pre>
+<pre class="r"><code>compareValues(reportedValue = 14329.49, obtainedValue = mean(119.7^2), isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (14329.49) and the obtained value (14328.09) differed by 0.01%&quot;</code></pre>
 <pre class="r"><code>rs3 = summary(lm(Letters_Per_Word ~ Condition_0.Standard, d.tidy)); rs3</code></pre>
 <pre><code>## 
 ## Call:
@@ -501,6 +511,12 @@ rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</co
 ## F-statistic: 4.238 on 1 and 198 DF,  p-value: 0.04084</code></pre>
 <pre class="r"><code>effect3 = cohensD(Letters_Per_Word ~ Condition_0.Standard, data = d.tidy); effect3</code></pre>
 <pre><code>## [1] 0.2911288</code></pre>
+<pre class="r"><code>compareValues(reportedValue = .043, obtainedValue = .041, isP = T) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (0.043) and the obtained value (0.041) differed by 4.65%&quot;</code></pre>
+<pre class="r"><code>compareValues(reportedValue = 4.17, obtainedValue = 2.059^2, isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (4.17) and the obtained value (4.239481) differed by 1.67%&quot;</code></pre>
+<pre class="r"><code>compareValues(reportedValue = .28, obtainedValue = .29, isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (0.28) and the obtained value (0.29) differed by 3.57%&quot;</code></pre>
 <pre class="r"><code>rs4 = summary(lm(Syllables_Per_Word ~ Condition_0.Standard, d.tidy)); rs4</code></pre>
 <pre><code>## 
 ## Call:
@@ -522,7 +538,9 @@ rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</co
 ## F-statistic: 5.228 on 1 and 198 DF,  p-value: 0.02328</code></pre>
 <pre class="r"><code>effect4 = cohensD(Syllables_Per_Word ~ Condition_0.Standard, data = d.tidy); effect4</code></pre>
 <pre><code>## [1] 0.3233684</code></pre>
-<pre class="r"><code>rs5 = summary(lm(Sentence_count ~ Condition_0.Standard, d.tidy)); rs5</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO
+
+rs5 = summary(lm(Sentence_count ~ Condition_0.Standard, d.tidy)); rs5</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = Sentence_count ~ Condition_0.Standard, data = d.tidy)
@@ -543,7 +561,9 @@ rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</co
 ## F-statistic: 0.3187 on 1 and 198 DF,  p-value: 0.573</code></pre>
 <pre class="r"><code>effect5 = cohensD(Sentence_count ~ Condition_0.Standard, data = d.tidy); effect5</code></pre>
 <pre><code>## [1] 0.07983564</code></pre>
-<pre class="r"><code>rs6 = summary(lm(words_per_sentence ~ Condition_0.Standard, d.tidy)); rs6</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO
+
+rs6 = summary(lm(words_per_sentence ~ Condition_0.Standard, d.tidy)); rs6</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = words_per_sentence ~ Condition_0.Standard, data = d.tidy)
@@ -564,7 +584,9 @@ rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</co
 ## F-statistic: 2.163 on 1 and 198 DF,  p-value: 0.1429</code></pre>
 <pre class="r"><code>effect6 = cohensD(words_per_sentence ~ Condition_0.Standard, data = d.tidy); effect6</code></pre>
 <pre><code>## [1] 0.208008</code></pre>
-<pre class="r"><code>rs7 = summary(lm(paragraph_count ~ Condition_0.Standard, d.tidy)); rs7</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO
+
+rs7 = summary(lm(paragraph_count ~ Condition_0.Standard, d.tidy)); rs7</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = paragraph_count ~ Condition_0.Standard, data = d.tidy)
@@ -585,6 +607,8 @@ rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</co
 ## F-statistic: 0.01527 on 1 and 198 DF,  p-value: 0.9018</code></pre>
 <pre class="r"><code>effect7 = cohensD(paragraph_count ~ Condition_0.Standard, data = d.tidy); effect7</code></pre>
 <pre><code>## [1] 0.0174785</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO</code></pre>
+<p>Next, we reproduce Medimorac et al.’s analyses of lexical sophistication, using the Coh-Metrix source as well as the TAACO and TAALES sources, again noting where there are discrepancies between our obtained results and Medimorec et al.’s reported results.</p>
 <pre class="r"><code>#3.2 Lexical sophistication
 rs8 = summary(lm(Type.Token_Ratio ~ Condition_0.Standard, d.tidy)); rs8</code></pre>
 <pre><code>## 
@@ -629,6 +653,10 @@ rs8 = summary(lm(Type.Token_Ratio ~ Condition_0.Standard, d.tidy)); rs8</code></
 ## F-statistic: 3.285 on 1 and 198 DF,  p-value: 0.07144</code></pre>
 <pre class="r"><code>effect9 = cohensD(vocdD_Lexical_Diversity ~ Condition_0.Standard, data = d.tidy); effect9</code></pre>
 <pre><code>## [1] 0.2563104</code></pre>
+<pre class="r"><code>compareValues(reportedValue = 3.29, obtainedValue = 3.28, isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (3.29) and the obtained value (3.28) differed by 0.3%&quot;</code></pre>
+<pre class="r"><code>compareValues(reportedValue = 264.62, obtainedValue = mean(16.27^2), isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (264.62) and the obtained value (264.7129) differed by 0.04%&quot;</code></pre>
 <pre class="r"><code>rs10 = summary(lm(Measure_of_Textual_Lexical_Diversity_MTLD ~ Condition_0.Standard, d.tidy)); rs10</code></pre>
 <pre><code>## 
 ## Call:
@@ -651,6 +679,8 @@ rs8 = summary(lm(Type.Token_Ratio ~ Condition_0.Standard, d.tidy)); rs8</code></
 ## F-statistic: 2.134 on 1 and 198 DF,  p-value: 0.1456</code></pre>
 <pre class="r"><code>effect10 = cohensD(Measure_of_Textual_Lexical_Diversity_MTLD ~ Condition_0.Standard, data = d.tidy); effect10</code></pre>
 <pre><code>## [1] 0.2065925</code></pre>
+<pre class="r"><code>compareValues(reportedValue = 239.96, obtainedValue = mean(15.49^2), isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (239.96) and the obtained value (239.9401) differed by 0.01%&quot;</code></pre>
 <pre class="r"><code>rs11 = summary(lm(Word_Frequency_all_words_log ~ Condition_0.Standard, d.tidy)); rs11</code></pre>
 <pre><code>## 
 ## Call:
@@ -673,6 +703,8 @@ rs8 = summary(lm(Type.Token_Ratio ~ Condition_0.Standard, d.tidy)); rs8</code></
 ## F-statistic: 4.486 on 1 and 198 DF,  p-value: 0.03543</code></pre>
 <pre class="r"><code>effect11 = cohensD(Word_Frequency_all_words_log ~ Condition_0.Standard, data = d.tidy); effect11</code></pre>
 <pre><code>## [1] 0.2995179</code></pre>
+<pre class="r"><code>compareValues(reportedValue = .01, obtainedValue = mean(0.08878^2), isP = F) #MAJOR ERROR</code></pre>
+<pre><code>## [1] &quot;MAJOR NUMERICAL ERROR. The reported value (0.01) and the obtained value (0.0078818884) differed by 21.18%&quot;</code></pre>
 <pre class="r"><code>rs12 = summary(lm(Word_Frequency_content_words_raw ~ Condition_0.Standard, d.tidy)); rs12</code></pre>
 <pre><code>## 
 ## Call:
@@ -695,6 +727,8 @@ rs8 = summary(lm(Type.Token_Ratio ~ Condition_0.Standard, d.tidy)); rs8</code></
 ## F-statistic: 4.735 on 1 and 198 DF,  p-value: 0.03074</code></pre>
 <pre class="r"><code>effect12 = cohensD(Word_Frequency_content_words_raw ~ Condition_0.Standard, data = d.tidy); effect12</code></pre>
 <pre><code>## [1] 0.3077335</code></pre>
+<pre class="r"><code>compareValues(reportedValue = 4.74, obtainedValue = (-2.176)^2, isP = F) #MINOR ERROR</code></pre>
+<pre><code>## [1] &quot;MINOR NUMERICAL ERROR. The reported value (4.74) and the obtained value (4.734976) differed by 0.11%&quot;</code></pre>
 <pre class="r"><code>#TAACO/TAALES
 rs13 = summary(lm(type.token_ratio_TAACO ~ Condition_0.Standard, d.tidy)); rs13</code></pre>
 <pre><code>## 
@@ -717,7 +751,9 @@ rs13 = summary(lm(type.token_ratio_TAACO ~ Condition_0.Standard, d.tidy)); rs13<
 ## F-statistic:  10.6 on 1 and 198 DF,  p-value: 0.001329</code></pre>
 <pre class="r"><code>effect13 = cohensD(type.token_ratio_TAACO ~ Condition_0.Standard, data = d.tidy); effect13</code></pre>
 <pre><code>## [1] 0.4604713</code></pre>
-<pre class="r"><code>rs14 = summary(lm(SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, d.tidy)); rs14</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO
+
+rs14 = summary(lm(SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, d.tidy)); rs14</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, 
@@ -739,7 +775,9 @@ rs13 = summary(lm(type.token_ratio_TAACO ~ Condition_0.Standard, d.tidy)); rs13<
 ## F-statistic: 6.132 on 1 and 198 DF,  p-value: 0.01411</code></pre>
 <pre class="r"><code>effect14 = cohensD(SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, data = d.tidy); effect14</code></pre>
 <pre><code>## [1] 0.3502079</code></pre>
-<pre class="r"><code>rs15 = summary(lm(BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, d.tidy)); rs15</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO
+
+rs15 = summary(lm(BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, d.tidy)); rs15</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, 
@@ -761,7 +799,9 @@ rs13 = summary(lm(type.token_ratio_TAACO ~ Condition_0.Standard, d.tidy)); rs13<
 ## F-statistic: 6.796 on 1 and 198 DF,  p-value: 0.009834</code></pre>
 <pre class="r"><code>effect15 = cohensD(BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, data = d.tidy); effect15</code></pre>
 <pre><code>## [1] 0.3686631</code></pre>
-<pre class="r"><code>rs16 = summary(lm(SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, d.tidy)); rs16</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO
+
+rs16 = summary(lm(SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, d.tidy)); rs16</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, 
@@ -783,7 +823,9 @@ rs13 = summary(lm(type.token_ratio_TAACO ~ Condition_0.Standard, d.tidy)); rs13<
 ## F-statistic: 6.115 on 1 and 198 DF,  p-value: 0.01424</code></pre>
 <pre class="r"><code>effect16 = cohensD(SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, data = d.tidy); effect16</code></pre>
 <pre><code>## [1] 0.3497236</code></pre>
-<pre class="r"><code>rs17 = summary(lm(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, d.tidy)); rs17</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO
+
+rs17 = summary(lm(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, d.tidy)); rs17</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, 
@@ -805,10 +847,39 @@ rs13 = summary(lm(type.token_ratio_TAACO ~ Condition_0.Standard, d.tidy)); rs13<
 ## F-statistic: 5.635 on 1 and 198 DF,  p-value: 0.01856</code></pre>
 <pre class="r"><code>effect17 = cohensD(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, data = d.tidy); effect17</code></pre>
 <pre><code>## [1] 0.3357099</code></pre>
+<pre class="r"><code>#INSUFFICIENT INFO</code></pre>
 </div>
 </div>
 <div id="step-5-conclusion" class="section level2">
 <h2>Step 5: Conclusion</h2>
+<p>Here, we summarize the errors that we encountered in our reproduction of our analyses.</p>
+<pre class="r"><code>codReport(Report_Type = 'pilot',
+          Article_ID = 'jCWSIW', 
+          Insufficient_Information_Errors = 9,
+          Decision_Errors = 0, 
+          Major_Numerical_Errors = 1, 
+          Minor_Numerical_Errors = 10)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Insufficient_Information_Errors</th>
+<th align="right">Decision_Errors</th>
+<th align="right">Major_Numerical_Errors</th>
+<th align="right">Minor_Numerical_Errors</th>
+<th align="left">Final_Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">10</td>
+<td align="left">Failure</td>
+</tr>
+</tbody>
+</table>
+<p>Below, we reconstruct the tables that Medimorec et al. reported in their original paper.</p>
 <p><strong>Table 1</strong>: means, standard deviations, and Cohen’s d of essay discriptive measures across the two conditions.</p>
 <pre class="r"><code>t1 = as.table(matrix(c(m_fluency,sd_fluency,m_fluency2,sd_fluency2,effect, m_numwords,sd_numwords,m_numwords2,sd_numwords2,effect2, m_lengthl, sd_lengthl,m_lengthl2,sd_lengthl2,effect3, m_lengths,sd_lengths,m_lengths2,sd_lengths2,effect4,m_sentence,sd_sentence, m_sentence2,sd_sentence2, effect5, m_wordsper, sd_wordsper,m_wordsper2,sd_wordsper2,effect6,m_paragraph,sd_paragraph,m_paragraph2, sd_paragraph2, effect7), byrow=T, ncol=5,
               dimnames=list(measure=c(&quot;transcription fluency&quot;,&quot;number of words&quot;, &quot;word length (letters)&quot;, &quot;world length (syllables)&quot;, &quot;sentence count&quot;, &quot;words per sentence&quot;, &quot;paragraph count&quot;),
@@ -878,7 +949,10 @@ print(t3)</code></pre>
 <h4>3.2 Lexical sophistication</h4>
 <p>When we examined lexical sophistication, we found that there was a <em>significant relationship</em> between condition and TTR, <strong>b = 0.02, t(198) = 3.115, p = 0.0021133</strong>. That is, those in the standard condition had a lower TTR (M = 0.41, SD = 0.04) than those in the delay condition (M = 0.43, SD = 0.05). We also found a <em>marginally significant</em> relationship between vocd-D and condition, <strong>b = 4.17, t(198) = 1.812, p = 0.071441</strong>, such that those in the standard condition had lower vocd-D (M = 87.06, SD = 14.81) than those in the delay condition (M = 91.23, SD = 17.61). There was <em>no significant relationship</em> between the measure of textual lexical diversity and condition, <strong>b = 3.2, t(198) = 1.461, p = 0.1456472</strong>. However, there was a <em>significant relationship</em> between the log frequency of all words and condition, <strong>b = -0.03, t(198) = -2.118, p = 0.03543</strong>. such that those in the standard condition had a higher log frequency of words (M = 3.03, SD = 0.09) than those in the delay condition (M = 3.01, SD = 0.08). And there was also a <em>significant relationship</em> between the raw frequency of content words and condition, <strong>b = -0.04, t(198) = -2.176, p = 0.0307389</strong>. Those in the standard condition had a higher raw frequency of content words (M = 2.37, SD = 0.12) than those in the delay condition (M = 2.33, SD = 0.12) (see <strong>Table 2</strong>).</p>
 <p>We find similar results when examining lexical diersity and word frequency using TAACO and TAALES (see <strong>Table 3</strong>). We found that there was a <em>significant relationship</em> between TTR and condition, <strong>b = 0.02, t(198) = 3.256, p = 0.0013291</strong>, such that those in the standard condition had a lower TTR (M = 0.42, SD = 0.04) than those in the delay condition (M = 0.44, SD = 0.05). There was also a <em>significant relationship</em> between the frequency of all words by condition using SUBTLEXus, <strong>b = -0.05, t(198) = -2.476, p = 0.0141123</strong>, such that participants in the standard condition had higher log frequencies (M = 4.44, SD = 0.14) than those in the delay condition (M = 4.4, SD = 0.13), and using BNC, <strong>b = -0.03, t(198) = -2.607, p = 0.0098336</strong>, such that those in the standard condition had higher log frequencies (M = 4.91, SD = 0.08) than those in the delay condition (M = 4.87, SD = 0.09). Finally, there was also a <em>significant relationship</em> between the log frequency of content words by condition using SUBTLEXus, <strong>b = -0.06, t(198) = -2.473, p = 0.0142441</strong>, such that those in the standard condition had higher log frequencies (M = 3.77, SD = 0.17) than those in the delay condition (M = 3.71, SD = 0.18), and using BNC, <strong>b = -0.04, t(198) = -2.374, p = 0.0185613</strong>, such that those in the standard condition had higer log frequencies (M = 4.26, SD = 0.1) than those in the delay condition, (M = 4.22, SD = 0.12).</p>
-<p>Overall, we were able to reproduce the effects found by Medimorec et al. (2017). Although the statistics are slightly different, as we used a slightly different test that informs us of the same outcome, conceptually we find support for Medimorec et al.’s claim that essays written in a less fluent way are more lexically diverse and use less frequent words.</p>
+</div>
+<div id="comparison-to-medimorec-et-al.-results" class="section level4">
+<h4>Comparison to Medimorec et al. results</h4>
+<p>Overall, we were able to reproduce the general results produced by Medimorec et al. (2017). Conceptually we find support for Medimorec et al.’s claim that essays written in a less fluent way are more lexically diverse and use less frequent words. However, when we make a closer comparison to Medimorec et al.’s exact reported results, we find that we have failed to make a successful reproduction. There were a number of minor numerical errors that could have been reporting error due to rounding errors and the like, and there was one major numerical error. The mean squared error of our analysis of the effect of condition on the log frequency of all words was far smaller than what Medimorec et al. reported. Further, for nine of the analyses that Medimorec et al. presumably carried out were not fully reported with all accompanying statistics. This insufficient information made it impossible for us to truly determine if our analyses reproduced theirs. Therefore, we consider this replication a failure.</p>
 <pre class="r"><code>devtools::session_info()</code></pre>
 <pre><code>##  setting  value                       
 ##  version  R version 3.3.3 (2017-03-06)
@@ -912,6 +986,7 @@ print(t3)</code></pre>
 ##  gridExtra      2.2.1    2016-02-29
 ##  gtable         0.2.0    2016-02-26
 ##  haven        * 1.0.0    2016-09-23
+##  highr          0.6      2016-05-09
 ##  Hmisc        * 4.0-2    2016-12-31
 ##  hms            0.3      2016-11-22
 ##  htmlTable      1.9      2017-01-26
@@ -981,6 +1056,7 @@ print(t3)</code></pre>
 ##  CRAN (R 3.3.0)                                      
 ##  cran (@0.2.0)                                       
 ##  cran (@1.0.0)                                       
+##  CRAN (R 3.3.0)                                      
 ##  CRAN (R 3.3.2)                                      
 ##  CRAN (R 3.3.2)                                      
 ##  CRAN (R 3.3.2)                                      
