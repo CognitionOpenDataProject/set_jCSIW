@@ -23,7 +23,7 @@ The keyboard manipulation was conducted using a QWERTY keyboard and a software p
 
 The times between consevutive lower case letters, as recorded by the keyboard delay program, was used as a measure of transcription fluency. Outliers (more than 2.5 SD away from the mean) were removed within individual participants - 1.42% of keystrokes were eliminated for 199 participants (one participant typed the essay in all caps). Using the Coh-Metrix text analyzer, essays were analyzed for lexical diversity and word frequency. The Tool for the Automatic Analysis of Lexical Sophistication (TAALES) and the Tool for the Automatic Analysis of Cohesion (TAACO) were also used. 
 
-Lexical diversity was defined as the range of vocabulary in a passage of text. Specifically, this means the ratio of unique words to the number of words in a passage of text. A type-token ration (TTR), a measure of textual lexical diversity (MTLD), and vocd-D are calculated using the Coh-Matrix to operationalize this construct. TTR was also calculated using tbe TAACO measure. Word frequency is defined as how often an individual word occurs in English, with the assumption that passages of text that contain words that are infrequent are more lexically sophisticated. The Coh-Matrix uses the CELEX database to calculate the log-frequency for all words used as well as the raw frequencies for content words. SUBTLEXus and the British National Corpus databases are used by TAALES to assess word frequency as well. Further, three independent raters who were blind to condition scored the essays using a 6 point scale similar to that used by the ACT writing test. All raters were trained using the same rubric and a pool of argumentative essays separate from this study. Average interrater reliability reached r > .5 on these training trials, and when the essays from this study were scored, the interrater reliability was adequate, r(198) = .56, p < .001. The mean of the two raters' scores with the highest correlation were used as the ultimate score assigned to each essay. The score closest to the third rater's score was used in the event that the differences between the two raters were greater than or equal to 1.
+Lexical diversity was defined as the range of vocabulary in a passage of text. Specifically, this means the ratio of unique words to the number of words in a passage of text. A type-token ration (TTR), a measure of textual lexical diversity (MTLD), and vocd-D are calculated using the Coh-Metrix to operationalize this construct. TTR was also calculated using tbe TAACO measure. Word frequency is defined as how often an individual word occurs in English, with the assumption that passages of text that contain words that are infrequent are more lexically sophisticated. The Coh-Metrix uses the CELEX database to calculate the log-frequency for all words used as well as the raw frequencies for content words. SUBTLEXus and the British National Corpus databases are used by TAALES to assess word frequency as well. Further, three independent raters who were blind to condition scored the essays using a 6 point scale similar to that used by the ACT writing test. All raters were trained using the same rubric and a pool of argumentative essays separate from this study. Average interrater reliability reached r > .5 on these training trials, and when the essays from this study were scored, the interrater reliability was adequate, r(198) = .56, p < .001. The mean of the two raters' scores with the highest correlation were used as the ultimate score assigned to each essay. The score closest to the third rater's score was used in the event that the differences between the two raters were greater than or equal to 1.
 
 ------
 
@@ -40,15 +40,12 @@ Lexical diversity was defined as the range of vocabulary in a passage of text. S
 
 ------
 
-[The chunk below sets up some formatting options for the R Markdown document]
 
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 ```
 
 ## Step 1: Load packages
-
-[Some useful packages are being loaded below. You can add any additional ones you might need too.]
 
 ```{r}
 library(tidyverse) # for data munging
@@ -57,6 +54,7 @@ library(haven) # import and export 'SPSS', 'Stata' and 'SAS' Files
 library(readxl) # import excel files
 library(CODreports) # custom report functions
 library(lsr)
+library(tables)
 ```
 
 ## Step 2: Load data
@@ -246,10 +244,36 @@ effect17 = cohensD(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, data
 
 ## Step 5: Conclusion
 
+Reproduction of **Table 1**: means, standard deviations, and Cohen's d of essay discriptive measures across the two conditions.
 ```{r}
+t1 = as.table(matrix(c(m_fluency,sd_fluency,m_fluency2,sd_fluency2,effect, m_numwords,sd_numwords,m_numwords2,sd_numwords2,effect2, m_lengthl, sd_lengthl,m_lengthl2,sd_lengthl2,effect3, m_lengths,sd_lengths,m_lengths2,sd_lengths2,effect4,m_sentence,sd_sentence, m_sentence2,sd_sentence2, effect5, m_wordsper, sd_wordsper,m_wordsper2,sd_wordsper2,effect6,m_paragraph,sd_paragraph,m_paragraph2, sd_paragraph2, effect7), byrow=T, ncol=5,
+              dimnames=list(measure=c("transcription fluency","number of words", "word length (letters)", "world length (syllables)", "sentence count", "words per sentence", "paragraph count"),
+                            statistic=c("m (standard)", "sd (standard)", "m (delay)", "sd (delay)", "Cohen's d"))))
+print(t1)
 ```
 
-[Please also include a brief text summary describing your findings. If this reproducibility check was a failure, you should note any suggestions as to what you think the likely cause(s) might be.]
+
+Reproduction of **Table 2**: means, standard deviations, and Cohen's d of lexical diversity and word frequency across the two conditions, Coh-Metrix indices. 
+```{r}
+t2 = as.table(matrix(c(m_ttr, sd_ttr, m_ttr2, sd_ttr2, effect8, m_mtld, sd_mtld, m_mtld2, sd_mtld2, effect10, m_vocd,sd_vocd,m_vocd2,sd_vocd2,effect9, m_logfreq,sd_logfreq,m_logfreq2, sd_logfreq2, effect11, m_rawfreq,sd_rawfreq, m_rawfreq2,sd_rawfreq2, effect12), byrow=T, ncol=5,
+              dimnames=list(measure=c("type-token ratio", "measure of textual lexical diversity","vocd-D", "log frequency all words", "word frequency content words (raw)"),
+                            statistic=c("m (standard)", "sd (standard)", "m (delay)", "sd (delay)", "Cohen's d"))))
+print(t2)
+```
+
+
+Reproduction of **Table 3**: means, standard deviations, and Cohen's d of lexical diversity and word frequency across the two conditions, TAACO and TAALES indices.
+```{r}
+t3 = as.table(matrix(c(m_ttr3, sd_ttr3, m_ttr4, sd_ttr4, effect13, m_allsub, sd_allsub, m_allsub2, sd_allsub2,effect14, m_allbnc, sd_allbnc, m_allbnc2,sd_allbnc2, effect15, m_contentsub, sd_contentsub, m_contentsub2, sd_contentsub2, effect16,m_contentbnc, sd_contentbnc, m_contentbnc2, sd_contentbnc2, effect17), byrow=T, ncol=5,
+              dimnames=list(measure=c("type-token ratio", "log frequency all words(SUBTLEXus)", "log frequency all words (BNC)", "log frequency content words (SUBTLEXus)", "log frequency content words (BNC)"),
+                            statistic=c("m (standard)", "sd (standard)", "m (delay)", "sd (delay)", "Cohen's d"))))
+print(t3)
+```
+
+####3.1 Descriptive essay indices
+In our analyses, we found that the delay condition had a *significant relationship* with transcription fluency, **b = `r round(rs1$coefficients[2,1], 2)`, t(`r rs1$df[2]`) = `r round(rs1$coefficients[2,3], 3)`, p < .001**. Specifically, we found that transcription fluency was greater in the standard condition (M = `r round(m_fluency, 2)`, SD = `r round(sd_fluency,2)`) than in the delay condition (M = `r round(m_fluency2)`, SD = `r round(sd_fluency2, 2)`). Further, we found that there was a *significant relationship* between condition and the number of words written, **b = `r round(rs2$coefficients[2,1], 2)`, t(`r rs2$df[2]`) = `r round(rs2$coefficients[2,3], 3)`, p = `r rs2$coefficients[2,4]`**. Participants in the standard condition used a greater number of words (M = `r round(m_numwords,2)`, SD = `r round(sd_numwords,2)`) than those in the delay condition (M = `r round(m_numwords2,2)`, SD = `r round(sd_numwords2, 2)`). We also found that there was a *significant relationship* between condition and the average word length as measured by letters per word that participants used, **b = `r round(rs3$coefficients[2,1], 2)`, t(`r rs3$df[2]`) = `r round(rs3$coefficients[2,3], 3)`, p = `r rs3$coefficients[2,4]`**. Participants in the standard condition used fewer words (M = `r round(m_lengthl,2)`, SD = `r round(sd_lengthl,2)`) than those in the delay condition (M = `r round(m_lengthl2, 2)`, SD = `r round(sd_lengthl2,2)`). There was also similarly a *significant relationship* between condition and word length as measured by syllables per word that participants used
+
+
 
 [This function will output information about the package versions used in this report:]
 

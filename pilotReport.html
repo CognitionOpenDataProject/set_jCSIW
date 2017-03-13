@@ -240,7 +240,7 @@ div.tocify {
 <p>Participants were randomly assigned to one of two experimental conditions in a between-subjects design: standard typing condition vs. keyboard delay condition. Participants were given 50 minutes to write an essay about cellphone use in schools, and these essays were meant to be argumentative in nature, at least 500 words long, and participants were told that their essays would be graded. After a 3 minute practice session to get familiarized with the keyboard by typing a sentence, participants wrote their essay. After the 50 minutes ended, participants filled out NASA Task Load Index (NASA-TLX), which measures subjective fluency.</p>
 <p>The keyboard manipulation was conducted using a QWERTY keyboard and a software program that manipulated the delay between keystrokes. Following pilot tests, the minimum delay that was set using this software was 100ms. The program, as well as Inputlog key-logger (another program), recorded keystroke activity.</p>
 <p>The times between consevutive lower case letters, as recorded by the keyboard delay program, was used as a measure of transcription fluency. Outliers (more than 2.5 SD away from the mean) were removed within individual participants - 1.42% of keystrokes were eliminated for 199 participants (one participant typed the essay in all caps). Using the Coh-Metrix text analyzer, essays were analyzed for lexical diversity and word frequency. The Tool for the Automatic Analysis of Lexical Sophistication (TAALES) and the Tool for the Automatic Analysis of Cohesion (TAACO) were also used.</p>
-<p>Lexical diversity was defined as the range of vocabulary in a passage of text. Specifically, this means the ratio of unique words to the number of words in a passage of text. A type-token ration (TTR), a measure of textual lexical diversity (MTLD), and vocd-D are calculated using the Coh-Matrix to operationalize this construct. TTR was also calculated using tbe TAACO measure. Word frequency is defined as how often an individual word occurs in English, with the assumption that passages of text that contain words that are infrequent are more lexically sophisticated. The Coh-Matrix uses the CELEX database to calculate the log-frequency for all words used as well as the raw frequencies for content words. SUBTLEXus and the British National Corpus databases are used by TAALES to assess word frequency as well. Further, three independent raters who were blind to condition scored the essays using a 6 point scale similar to that used by the ACT writing test. All raters were trained using the same rubric and a pool of argumentative essays separate from this study. Average interrater reliability reached r &gt; .5 on these training trials, and when the essays from this study were scored, the interrater reliability was adequate, r(198) = .56, p &lt; .001. The mean of the two raters’ scores with the highest correlation were used as the ultimate score assigned to each essay. The score closest to the third rater’s score was used in the event that the differences between the two raters were greater than or equal to 1.</p>
+<p>Lexical diversity was defined as the range of vocabulary in a passage of text. Specifically, this means the ratio of unique words to the number of words in a passage of text. A type-token ration (TTR), a measure of textual lexical diversity (MTLD), and vocd-D are calculated using the Coh-Metrix to operationalize this construct. TTR was also calculated using tbe TAACO measure. Word frequency is defined as how often an individual word occurs in English, with the assumption that passages of text that contain words that are infrequent are more lexically sophisticated. The Coh-Metrix uses the CELEX database to calculate the log-frequency for all words used as well as the raw frequencies for content words. SUBTLEXus and the British National Corpus databases are used by TAALES to assess word frequency as well. Further, three independent raters who were blind to condition scored the essays using a 6 point scale similar to that used by the ACT writing test. All raters were trained using the same rubric and a pool of argumentative essays separate from this study. Average interrater reliability reached r &gt; .5 on these training trials, and when the essays from this study were scored, the interrater reliability was adequate, r(198) = .56, p &lt; .001. The mean of the two raters’ scores with the highest correlation were used as the ultimate score assigned to each essay. The score closest to the third rater’s score was used in the event that the differences between the two raters were greater than or equal to 1.</p>
 <hr />
 </div>
 <div id="target-outcomes" class="section level4">
@@ -261,16 +261,16 @@ div.tocify {
 <p>Condition had a significant effect on type-token ratio, F(1, 198) = 9.70, MSE = 0.002, p = 0.002, d = 0.44, and vocd-D (marginally), F(1, 198) = 3.29, MSE = 264.62, p = 0.071, d = 0.26, such that they were higher in the delay condition. There was no effect on the measure of textual lexical diversity, F(1, 198) = 2.13, MSE = 239.96, p = 0.146, d = 0.21, though the pattern of means was in the same direction. Moreover, condition had an effect on both word frequency indices such that they were lower in the delay condition, log word frequency-all words, F(1, 198) = 4.49, MSE = 0.01, p = 0.035, d = 0.30, raw word frequency-content words, F(1, 198) = 4.74, MSE = 0.02, p = 0.031, d = 0.31 (see Table 2). The results were similar when lexical diversity and word frequency from TAACO and TAALES were used (see Table 3).</p>
 </blockquote>
 <hr />
-<p>[The chunk below sets up some formatting options for the R Markdown document]</p>
 </div>
 <div id="step-1-load-packages" class="section level2">
 <h2>Step 1: Load packages</h2>
-<p>[Some useful packages are being loaded below. You can add any additional ones you might need too.]</p>
 <pre class="r"><code>library(tidyverse) # for data munging
 library(knitr) # for kable table formating
 library(haven) # import and export 'SPSS', 'Stata' and 'SAS' Files
 library(readxl) # import excel files
-library(CODreports) # custom report functions</code></pre>
+library(CODreports) # custom report functions
+library(lsr)
+library(tables)</code></pre>
 </div>
 <div id="step-2-load-data" class="section level2">
 <h2>Step 2: Load data</h2>
@@ -436,11 +436,443 @@ print(t3)</code></pre>
 </div>
 <div id="inferential-statistics" class="section level3">
 <h3>Inferential statistics</h3>
+<pre class="r"><code>#3.1 Descriptive essay indices
+rs1 = summary(lm(Transcription_Fluency ~ Condition_0.Standard, d.tidy)); rs1</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Transcription_Fluency ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -102.370  -34.210   -9.051   27.630  280.630 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           223.370      5.288   42.24   &lt;2e-16 ***
+## Condition_0.Standard   78.681      7.497   10.49   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 52.88 on 197 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.3586, Adjusted R-squared:  0.3554 
+## F-statistic: 110.1 on 1 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>effect = cohensD(Transcription_Fluency ~ Condition_0.Standard, data = d.tidy); effect</code></pre>
+<pre><code>## [1] 1.48795</code></pre>
+<pre class="r"><code>rs2 = summary(lm(Number_of_Words ~ Condition_0.Standard, d.tidy)); rs2</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Number_of_Words ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -329.66  -55.66  -22.83   31.09  596.34 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            593.66      11.97  49.593   &lt;2e-16 ***
+## Condition_0.Standard   -42.65      16.93  -2.519   0.0125 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 119.7 on 198 degrees of freedom
+## Multiple R-squared:  0.03106,    Adjusted R-squared:  0.02617 
+## F-statistic: 6.347 on 1 and 198 DF,  p-value: 0.01255</code></pre>
+<pre class="r"><code>effect2 = cohensD(Number_of_Words ~ Condition_0.Standard, data = d.tidy); effect2</code></pre>
+<pre><code>## [1] 0.35629</code></pre>
+<pre class="r"><code>rs3 = summary(lm(Letters_Per_Word ~ Condition_0.Standard, d.tidy)); rs3</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Letters_Per_Word ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.6534 -0.1634 -0.0141  0.1489  0.6766 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           4.68340    0.02428 192.853   &lt;2e-16 ***
+## Condition_0.Standard  0.07070    0.03434   2.059   0.0408 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2428 on 198 degrees of freedom
+## Multiple R-squared:  0.02095,    Adjusted R-squared:  0.01601 
+## F-statistic: 4.238 on 1 and 198 DF,  p-value: 0.04084</code></pre>
+<pre class="r"><code>effect3 = cohensD(Letters_Per_Word ~ Condition_0.Standard, data = d.tidy); effect3</code></pre>
+<pre><code>## [1] 0.2911288</code></pre>
+<pre class="r"><code>rs4 = summary(lm(Syllables_Per_Word ~ Condition_0.Standard, d.tidy)); rs4</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Syllables_Per_Word ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.2250 -0.0625 -0.0025  0.0575  0.2275 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          1.485000   0.008504 174.619   &lt;2e-16 ***
+## Condition_0.Standard 0.027500   0.012027   2.287   0.0233 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.08504 on 198 degrees of freedom
+## Multiple R-squared:  0.02573,    Adjusted R-squared:  0.02081 
+## F-statistic: 5.228 on 1 and 198 DF,  p-value: 0.02328</code></pre>
+<pre class="r"><code>effect4 = cohensD(Syllables_Per_Word ~ Condition_0.Standard, data = d.tidy); effect4</code></pre>
+<pre><code>## [1] 0.3233684</code></pre>
+<pre class="r"><code>rs5 = summary(lm(Sentence_count ~ Condition_0.Standard, d.tidy)); rs5</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Sentence_count ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -14.91  -4.52   0.09   3.61  27.61 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           25.9100     0.6513  39.780   &lt;2e-16 ***
+## Condition_0.Standard  -0.5200     0.9211  -0.565    0.573    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.513 on 198 degrees of freedom
+## Multiple R-squared:  0.001607,   Adjusted R-squared:  -0.003435 
+## F-statistic: 0.3187 on 1 and 198 DF,  p-value: 0.573</code></pre>
+<pre class="r"><code>effect5 = cohensD(Sentence_count ~ Condition_0.Standard, data = d.tidy); effect5</code></pre>
+<pre><code>## [1] 0.07983564</code></pre>
+<pre class="r"><code>rs6 = summary(lm(words_per_sentence ~ Condition_0.Standard, d.tidy)); rs6</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = words_per_sentence ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.6512 -3.1162 -0.8405  2.8190 20.7803 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           23.5742     0.4911  48.004   &lt;2e-16 ***
+## Condition_0.Standard  -1.0215     0.6945  -1.471    0.143    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.911 on 198 degrees of freedom
+## Multiple R-squared:  0.01081,    Adjusted R-squared:  0.005812 
+## F-statistic: 2.163 on 1 and 198 DF,  p-value: 0.1429</code></pre>
+<pre class="r"><code>effect6 = cohensD(words_per_sentence ~ Condition_0.Standard, data = d.tidy); effect6</code></pre>
+<pre><code>## [1] 0.208008</code></pre>
+<pre class="r"><code>rs7 = summary(lm(paragraph_count ~ Condition_0.Standard, d.tidy)); rs7</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = paragraph_count ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -3.15  -1.12   0.85   0.88   3.85 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            4.1200     0.1716  24.004   &lt;2e-16 ***
+## Condition_0.Standard   0.0300     0.2427   0.124    0.902    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.716 on 198 degrees of freedom
+## Multiple R-squared:  7.714e-05,  Adjusted R-squared:  -0.004973 
+## F-statistic: 0.01527 on 1 and 198 DF,  p-value: 0.9018</code></pre>
+<pre class="r"><code>effect7 = cohensD(paragraph_count ~ Condition_0.Standard, data = d.tidy); effect7</code></pre>
+<pre><code>## [1] 0.0174785</code></pre>
+<pre class="r"><code>#3.2 Lexical sophistication
+rs8 = summary(lm(Type.Token_Ratio ~ Condition_0.Standard, d.tidy)); rs8</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Type.Token_Ratio ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.110110 -0.026110 -0.003735  0.024078  0.154890 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          0.411360   0.004483  91.751  &lt; 2e-16 ***
+## Condition_0.Standard 0.019750   0.006341   3.115  0.00211 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.04483 on 198 degrees of freedom
+## Multiple R-squared:  0.04671,    Adjusted R-squared:  0.0419 
+## F-statistic: 9.702 on 1 and 198 DF,  p-value: 0.002113</code></pre>
+<pre class="r"><code>effect8 = cohensD(Type.Token_Ratio ~ Condition_0.Standard, data = d.tidy); effect8</code></pre>
+<pre><code>## [1] 0.4405109</code></pre>
+<pre class="r"><code>rs9 = summary(lm(vocdD_Lexical_Diversity ~ Condition_0.Standard, d.tidy)); rs9</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = vocdD_Lexical_Diversity ~ Condition_0.Standard, 
+##     data = d.tidy)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -32.195 -11.198  -0.887   8.755  63.229 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            87.059      1.627  53.518   &lt;2e-16 ***
+## Condition_0.Standard    4.169      2.301   1.812   0.0714 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 16.27 on 198 degrees of freedom
+## Multiple R-squared:  0.01632,    Adjusted R-squared:  0.01135 
+## F-statistic: 3.285 on 1 and 198 DF,  p-value: 0.07144</code></pre>
+<pre class="r"><code>effect9 = cohensD(vocdD_Lexical_Diversity ~ Condition_0.Standard, data = d.tidy); effect9</code></pre>
+<pre><code>## [1] 0.2563104</code></pre>
+<pre class="r"><code>rs10 = summary(lm(Measure_of_Textual_Lexical_Diversity_MTLD ~ Condition_0.Standard, d.tidy)); rs10</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Measure_of_Textual_Lexical_Diversity_MTLD ~ Condition_0.Standard, 
+##     data = d.tidy)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -38.091 -10.984  -0.945   7.689  60.743 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            80.404      1.549  51.904   &lt;2e-16 ***
+## Condition_0.Standard    3.200      2.191   1.461    0.146    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 15.49 on 198 degrees of freedom
+## Multiple R-squared:  0.01066,    Adjusted R-squared:  0.005666 
+## F-statistic: 2.134 on 1 and 198 DF,  p-value: 0.1456</code></pre>
+<pre class="r"><code>effect10 = cohensD(Measure_of_Textual_Lexical_Diversity_MTLD ~ Condition_0.Standard, data = d.tidy); effect10</code></pre>
+<pre><code>## [1] 0.2065925</code></pre>
+<pre class="r"><code>rs11 = summary(lm(Word_Frequency_all_words_log ~ Condition_0.Standard, d.tidy)); rs11</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Word_Frequency_all_words_log ~ Condition_0.Standard, 
+##     data = d.tidy)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.22811 -0.05567  0.00018  0.05508  0.33148 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           3.032110   0.008878 341.546   &lt;2e-16 ***
+## Condition_0.Standard -0.026590   0.012555  -2.118   0.0354 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.08878 on 198 degrees of freedom
+## Multiple R-squared:  0.02215,    Adjusted R-squared:  0.01721 
+## F-statistic: 4.486 on 1 and 198 DF,  p-value: 0.03543</code></pre>
+<pre class="r"><code>effect11 = cohensD(Word_Frequency_all_words_log ~ Condition_0.Standard, data = d.tidy); effect11</code></pre>
+<pre><code>## [1] 0.2995179</code></pre>
+<pre class="r"><code>rs12 = summary(lm(Word_Frequency_content_words_raw ~ Condition_0.Standard, d.tidy)); rs12</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Word_Frequency_content_words_raw ~ Condition_0.Standard, 
+##     data = d.tidy)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.36348 -0.06448  0.00197  0.06077  0.44547 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           2.36548    0.01233 191.815   &lt;2e-16 ***
+## Condition_0.Standard -0.03795    0.01744  -2.176   0.0307 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.1233 on 198 degrees of freedom
+## Multiple R-squared:  0.02336,    Adjusted R-squared:  0.01842 
+## F-statistic: 4.735 on 1 and 198 DF,  p-value: 0.03074</code></pre>
+<pre class="r"><code>effect12 = cohensD(Word_Frequency_content_words_raw ~ Condition_0.Standard, data = d.tidy); effect12</code></pre>
+<pre><code>## [1] 0.3077335</code></pre>
+<pre class="r"><code>#TAACO/TAALES
+rs13 = summary(lm(type.token_ratio_TAACO ~ Condition_0.Standard, d.tidy)); rs13</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = type.token_ratio_TAACO ~ Condition_0.Standard, data = d.tidy)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.10600 -0.02600 -0.00600  0.02423  0.15400 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          0.415100   0.004539  91.455  &lt; 2e-16 ***
+## Condition_0.Standard 0.020900   0.006419   3.256  0.00133 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.04539 on 198 degrees of freedom
+## Multiple R-squared:  0.05082,    Adjusted R-squared:  0.04603 
+## F-statistic:  10.6 on 1 and 198 DF,  p-value: 0.001329</code></pre>
+<pre class="r"><code>effect13 = cohensD(type.token_ratio_TAACO ~ Condition_0.Standard, data = d.tidy); effect13</code></pre>
+<pre><code>## [1] 0.4604713</code></pre>
+<pre class="r"><code>rs14 = summary(lm(SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, d.tidy)); rs14</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, 
+##     data = d.tidy)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.38635 -0.08022 -0.00434  0.08278  0.37416 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           4.44335    0.01357 327.530   &lt;2e-16 ***
+## Condition_0.Standard -0.04751    0.01919  -2.476   0.0141 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.1357 on 198 degrees of freedom
+## Multiple R-squared:  0.03004,    Adjusted R-squared:  0.02514 
+## F-statistic: 6.132 on 1 and 198 DF,  p-value: 0.01411</code></pre>
+<pre class="r"><code>effect14 = cohensD(SUBTLEXusFreq_ALL_Words_Log ~ Condition_0.Standard, data = d.tidy); effect14</code></pre>
+<pre><code>## [1] 0.3502079</code></pre>
+<pre class="r"><code>rs15 = summary(lm(BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, d.tidy)); rs15</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, 
+##     data = d.tidy)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.21958 -0.06158 -0.00013  0.04791  0.23737 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           4.905580   0.008395 584.332  &lt; 2e-16 ***
+## Condition_0.Standard -0.030950   0.011873  -2.607  0.00983 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.08395 on 198 degrees of freedom
+## Multiple R-squared:  0.03318,    Adjusted R-squared:  0.0283 
+## F-statistic: 6.796 on 1 and 198 DF,  p-value: 0.009834</code></pre>
+<pre class="r"><code>effect15 = cohensD(BNCWrittenFreq_AllWords_Log ~ Condition_0.Standard, data = d.tidy); effect15</code></pre>
+<pre><code>## [1] 0.3686631</code></pre>
+<pre class="r"><code>rs16 = summary(lm(SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, d.tidy)); rs16</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, 
+##     data = d.tidy)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.61286 -0.08781 -0.00336  0.09132  0.53414 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           3.76886    0.01778 211.975   &lt;2e-16 ***
+## Condition_0.Standard -0.06218    0.02514  -2.473   0.0142 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.1778 on 198 degrees of freedom
+## Multiple R-squared:  0.02996,    Adjusted R-squared:  0.02506 
+## F-statistic: 6.115 on 1 and 198 DF,  p-value: 0.01424</code></pre>
+<pre class="r"><code>effect16 = cohensD(SUBTLEXusFreq_Content_Words_Log ~ Condition_0.Standard, data = d.tidy); effect16</code></pre>
+<pre><code>## [1] 0.3497236</code></pre>
+<pre class="r"><code>rs17 = summary(lm(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, d.tidy)); rs17</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, 
+##     data = d.tidy)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.36741 -0.06855 -0.00548  0.06531  0.32759 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           4.25541    0.01098 387.570   &lt;2e-16 ***
+## Condition_0.Standard -0.03686    0.01553  -2.374   0.0186 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.1098 on 198 degrees of freedom
+## Multiple R-squared:  0.02767,    Adjusted R-squared:  0.02276 
+## F-statistic: 5.635 on 1 and 198 DF,  p-value: 0.01856</code></pre>
+<pre class="r"><code>effect17 = cohensD(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, data = d.tidy); effect17</code></pre>
+<pre><code>## [1] 0.3357099</code></pre>
 </div>
 </div>
 <div id="step-5-conclusion" class="section level2">
 <h2>Step 5: Conclusion</h2>
-<p>[Please also include a brief text summary describing your findings. If this reproducibility check was a failure, you should note any suggestions as to what you think the likely cause(s) might be.]</p>
+<p>Reproduction of <strong>Table 1</strong>: means, standard deviations, and Cohen’s d of essay discriptive measures across the two conditions.</p>
+<pre class="r"><code>t1 = as.table(matrix(c(m_fluency,sd_fluency,m_fluency2,sd_fluency2,effect, m_numwords,sd_numwords,m_numwords2,sd_numwords2,effect2, m_lengthl, sd_lengthl,m_lengthl2,sd_lengthl2,effect3, m_lengths,sd_lengths,m_lengths2,sd_lengths2,effect4,m_sentence,sd_sentence, m_sentence2,sd_sentence2, effect5, m_wordsper, sd_wordsper,m_wordsper2,sd_wordsper2,effect6,m_paragraph,sd_paragraph,m_paragraph2, sd_paragraph2, effect7), byrow=T, ncol=5,
+              dimnames=list(measure=c(&quot;transcription fluency&quot;,&quot;number of words&quot;, &quot;word length (letters)&quot;, &quot;world length (syllables)&quot;, &quot;sentence count&quot;, &quot;words per sentence&quot;, &quot;paragraph count&quot;),
+                            statistic=c(&quot;m (standard)&quot;, &quot;sd (standard)&quot;, &quot;m (delay)&quot;, &quot;sd (delay)&quot;, &quot;Cohen's d&quot;))))
+print(t1)</code></pre>
+<pre><code>##                           statistic
+## measure                    m (standard) sd (standard)    m (delay)
+##   transcription fluency    223.37000000   58.47016938 302.05050505
+##   number of words          593.66000000  138.55810290 551.01000000
+##   word length (letters)      4.68340000    0.23974406   4.75410000
+##   world length (syllables)   1.48500000    0.08260286   1.51250000
+##   sentence count            25.91000000    6.47932999  25.39000000
+##   words per sentence        23.57421000    4.90134589  22.55271000
+##   paragraph count            4.12000000    1.71316943   4.15000000
+##                           statistic
+## measure                      sd (delay)    Cohen's d
+##   transcription fluency     46.55266356   1.48794981
+##   number of words           97.26580212   0.35629000
+##   word length (letters)      0.24591242   0.29112882
+##   world length (syllables)   0.08741374   0.32336839
+##   sentence count             6.54725635   0.07983564
+##   words per sentence         4.92037452   0.20800797
+##   paragraph count            1.71961353   0.01747850</code></pre>
+<p>Reproduction of <strong>Table 2</strong>: means, standard deviations, and Cohen’s d of lexical diversity and word frequency across the two conditions, Coh-Metrix indices.</p>
+<pre class="r"><code>t2 = as.table(matrix(c(m_ttr, sd_ttr, m_ttr2, sd_ttr2, effect8, m_mtld, sd_mtld, m_mtld2, sd_mtld2, effect10, m_vocd,sd_vocd,m_vocd2,sd_vocd2,effect9, m_logfreq,sd_logfreq,m_logfreq2, sd_logfreq2, effect11, m_rawfreq,sd_rawfreq, m_rawfreq2,sd_rawfreq2, effect12), byrow=T, ncol=5,
+              dimnames=list(measure=c(&quot;type-token ratio&quot;, &quot;measure of textual lexical diversity&quot;,&quot;vocd-D&quot;, &quot;log frequency all words&quot;, &quot;word frequency content words (raw)&quot;),
+                            statistic=c(&quot;m (standard)&quot;, &quot;sd (standard)&quot;, &quot;m (delay)&quot;, &quot;sd (delay)&quot;, &quot;Cohen's d&quot;))))
+print(t2)</code></pre>
+<pre><code>##                                       statistic
+## measure                                m (standard) sd (standard)
+##   type-token ratio                       0.41136000    0.04460138
+##   measure of textual lexical diversity  80.40373000   14.42509727
+##   vocd-D                                87.05906000   14.80715656
+##   log frequency all words                3.03211000    0.09409848
+##   word frequency content words (raw)     2.36548000    0.12469498
+##                                       statistic
+## measure                                  m (delay)  sd (delay)   Cohen's d
+##   type-token ratio                      0.43111000  0.04506603  0.44051086
+##   measure of textual lexical diversity 83.60400000 16.48763909  0.20659254
+##   vocd-D                               91.22851000 17.60656290  0.25631040
+##   log frequency all words               3.00552000  0.08311334  0.29951794
+##   word frequency content words (raw)    2.32753000  0.12193155  0.30773347</code></pre>
+<p>Reproduction of <strong>Table 3</strong>: means, standard deviations, and Cohen’s d of lexical diversity and word frequency across the two conditions, TAACO and TAALES indices.</p>
+<pre class="r"><code>t3 = as.table(matrix(c(m_ttr3, sd_ttr3, m_ttr4, sd_ttr4, effect13, m_allsub, sd_allsub, m_allsub2, sd_allsub2,effect14, m_allbnc, sd_allbnc, m_allbnc2,sd_allbnc2, effect15, m_contentsub, sd_contentsub, m_contentsub2, sd_contentsub2, effect16,m_contentbnc, sd_contentbnc, m_contentbnc2, sd_contentbnc2, effect17), byrow=T, ncol=5,
+              dimnames=list(measure=c(&quot;type-token ratio&quot;, &quot;log frequency all words(SUBTLEXus)&quot;, &quot;log frequency all words (BNC)&quot;, &quot;log frequency content words (SUBTLEXus)&quot;, &quot;log frequency content words (BNC)&quot;),
+                            statistic=c(&quot;m (standard)&quot;, &quot;sd (standard)&quot;, &quot;m (delay)&quot;, &quot;sd (delay)&quot;, &quot;Cohen's d&quot;))))
+print(t3)</code></pre>
+<pre><code>##                                          statistic
+## measure                                   m (standard) sd (standard)
+##   type-token ratio                          0.41510000    0.04468735
+##   log frequency all words(SUBTLEXus)        4.44335000    0.13737146
+##   log frequency all words (BNC)             4.90558000    0.08272715
+##   log frequency content words (SUBTLEXus)   3.76886000    0.17447271
+##   log frequency content words (BNC)         4.25541000    0.10294660
+##                                          statistic
+## measure                                    m (delay) sd (delay)  Cohen's d
+##   type-token ratio                        0.43600000 0.04607855 0.46047129
+##   log frequency all words(SUBTLEXus)      4.39584000 0.13393129 0.35020789
+##   log frequency all words (BNC)           4.87463000 0.08515923 0.36866306
+##   log frequency content words (SUBTLEXus) 3.70668000 0.18106134 0.34972360
+##   log frequency content words (BNC)       4.21855000 0.11624472 0.33570992</code></pre>
+<div id="descriptive-essay-indices" class="section level4">
+<h4>3.1 Descriptive essay indices</h4>
+<p>In our analyses, we found that the delay condition had a <em>significant relationship</em> with transcription fluency, <strong>b = 78.68, t(197) = 10.495, p &lt; .001</strong>. Specifically, we found that transcription fluency was greater in the standard condition (M = 223.37, SD = 58.47) than in the delay condition (M = 302, SD = 46.55). Further, we found that there was a <em>significant relationship</em> between condition and the number of words written, <strong>b = -42.65, t(198) = -2.519, p = 0.0125476</strong>. Participants in the standard condition used a greater number of words (M = 593.66, SD = 138.56) than those in the delay condition (M = 551.01, SD = 97.27). We also found that there was a <em>significant relationship</em> between condition and the average word length as measured by letters per word that participants used, <strong>b = 0.07, t(198) = 2.059, p = 0.0408427</strong>. Participants in the standard condition used fewer words (M = 4.68, SD = 0.24) than those in the delay condition (M = 4.75, SD = 0.25). There was also similarly a <em>significant relationship</em> between condition and word length as measured by syllables per word that participants used</p>
 <p>[This function will output information about the package versions used in this report:]</p>
 <pre class="r"><code>devtools::session_info()</code></pre>
 <pre><code>##  setting  value                       
@@ -452,63 +884,86 @@ print(t3)</code></pre>
 ##  tz       America/Los_Angeles         
 ##  date     2017-03-12                  
 ## 
-##  package    * version  date      
-##  assertthat   0.1      2013-12-06
-##  backports    1.0.5    2017-01-18
-##  broom        0.4.2    2017-02-13
-##  CODreports * 0.1      2017-03-12
-##  colorspace   1.3-2    2016-12-14
-##  DBI          0.6      2017-03-09
-##  devtools     1.12.0   2016-06-24
-##  digest       0.6.12   2017-01-27
-##  dplyr      * 0.5.0    2016-06-24
-##  evaluate     0.10     2016-10-11
-##  forcats      0.2.0    2017-01-23
-##  foreign      0.8-67   2016-09-13
-##  ggplot2    * 2.2.1    2016-12-30
-##  gtable       0.2.0    2016-02-26
-##  haven      * 1.0.0    2016-09-23
-##  hms          0.3      2016-11-22
-##  htmltools    0.3.5    2016-03-21
-##  httr         1.2.1    2016-07-03
-##  jsonlite     1.3      2017-02-28
-##  knitr      * 1.15.1   2016-11-22
-##  lattice      0.20-34  2016-09-06
-##  lazyeval     0.2.0    2016-06-12
-##  lubridate    1.6.0    2016-09-13
-##  magrittr     1.5      2014-11-22
-##  memoise      1.0.0    2016-01-29
-##  mnormt       1.5-5    2016-10-15
-##  modelr       0.1.0    2016-08-31
-##  munsell      0.4.3    2016-02-13
-##  nlme         3.1-131  2017-02-06
-##  packrat      0.4.8-1  2016-09-07
-##  plyr         1.8.4    2016-06-08
-##  psych        1.6.12   2017-01-08
-##  purrr      * 0.2.2    2016-06-18
-##  R6           2.2.0    2016-10-05
-##  Rcpp         0.12.9.4 2017-03-12
-##  readr      * 1.0.0    2016-08-03
-##  readxl     * 0.1.1    2016-03-28
-##  reshape2     1.4.2    2016-10-22
-##  rmarkdown    1.3      2016-12-21
-##  rprojroot    1.2      2017-01-16
-##  rvest        0.3.2    2016-06-17
-##  scales       0.4.1    2016-11-09
-##  stringi      1.1.2    2016-10-01
-##  stringr      1.2.0    2017-02-18
-##  tibble     * 1.2      2016-08-26
-##  tidyr      * 0.6.1    2017-01-10
-##  tidyverse  * 1.1.1    2017-01-27
-##  withr        1.0.2    2016-06-20
-##  xml2         1.1.1    2017-01-24
-##  yaml         2.1.14   2016-11-12
+##  package      * version  date      
+##  acepack        1.4.1    2016-10-29
+##  assertthat     0.1      2013-12-06
+##  backports      1.0.5    2017-01-18
+##  base64enc      0.1-3    2015-07-28
+##  broom          0.4.2    2017-02-13
+##  checkmate      1.8.2    2016-11-02
+##  cluster        2.0.5    2016-10-08
+##  CODreports   * 0.1      2017-03-12
+##  colorspace     1.3-2    2016-12-14
+##  data.table     1.10.0   2016-12-03
+##  DBI            0.6      2017-03-09
+##  devtools       1.12.0   2016-06-24
+##  digest         0.6.12   2017-01-27
+##  dplyr        * 0.5.0    2016-06-24
+##  evaluate       0.10     2016-10-11
+##  forcats        0.2.0    2017-01-23
+##  foreign        0.8-67   2016-09-13
+##  Formula      * 1.2-1    2015-04-07
+##  ggplot2      * 2.2.1    2016-12-30
+##  gridExtra      2.2.1    2016-02-29
+##  gtable         0.2.0    2016-02-26
+##  haven        * 1.0.0    2016-09-23
+##  Hmisc        * 4.0-2    2016-12-31
+##  hms            0.3      2016-11-22
+##  htmlTable      1.9      2017-01-26
+##  htmltools      0.3.5    2016-03-21
+##  htmlwidgets    0.8      2016-11-09
+##  httr           1.2.1    2016-07-03
+##  jsonlite       1.3      2017-02-28
+##  knitr        * 1.15.1   2016-11-22
+##  lattice      * 0.20-34  2016-09-06
+##  latticeExtra   0.6-28   2016-02-09
+##  lazyeval       0.2.0    2016-06-12
+##  lsr          * 0.5      2015-03-02
+##  lubridate      1.6.0    2016-09-13
+##  magrittr       1.5      2014-11-22
+##  Matrix         1.2-8    2017-01-20
+##  memoise        1.0.0    2016-01-29
+##  mnormt         1.5-5    2016-10-15
+##  modelr         0.1.0    2016-08-31
+##  munsell        0.4.3    2016-02-13
+##  nlme           3.1-131  2017-02-06
+##  nnet           7.3-12   2016-02-02
+##  packrat        0.4.8-1  2016-09-07
+##  plyr           1.8.4    2016-06-08
+##  psych          1.6.12   2017-01-08
+##  purrr        * 0.2.2    2016-06-18
+##  R6             2.2.0    2016-10-05
+##  RColorBrewer   1.1-2    2014-12-07
+##  Rcpp           0.12.9.4 2017-03-12
+##  readr        * 1.0.0    2016-08-03
+##  readxl       * 0.1.1    2016-03-28
+##  reshape2       1.4.2    2016-10-22
+##  rmarkdown      1.3      2016-12-21
+##  rpart          4.1-10   2015-06-29
+##  rprojroot      1.2      2017-01-16
+##  rvest          0.3.2    2016-06-17
+##  scales         0.4.1    2016-11-09
+##  stringi        1.1.2    2016-10-01
+##  stringr        1.2.0    2017-02-18
+##  survival     * 2.40-1   2016-10-30
+##  tables       * 0.8      2017-01-03
+##  tibble       * 1.2      2016-08-26
+##  tidyr        * 0.6.1    2017-01-10
+##  tidyverse    * 1.1.1    2017-01-27
+##  withr          1.0.2    2016-06-20
+##  xml2           1.1.1    2017-01-24
+##  yaml           2.1.14   2016-11-12
 ##  source                                              
 ##  CRAN (R 3.3.0)                                      
+##  CRAN (R 3.3.0)                                      
 ##  CRAN (R 3.3.2)                                      
+##  CRAN (R 3.3.0)                                      
 ##  cran (@0.4.2)                                       
+##  CRAN (R 3.3.0)                                      
+##  CRAN (R 3.3.3)                                      
 ##  Github (CognitionOpenDataProject/CODreports@e90fdef)
 ##  cran (@1.3-2)                                       
+##  CRAN (R 3.3.2)                                      
 ##  cran (@0.6)                                         
 ##  CRAN (R 3.3.0)                                      
 ##  CRAN (R 3.3.2)                                      
@@ -516,44 +971,58 @@ print(t3)</code></pre>
 ##  cran (@0.10)                                        
 ##  cran (@0.2.0)                                       
 ##  CRAN (R 3.3.3)                                      
+##  CRAN (R 3.3.0)                                      
 ##  cran (@2.2.1)                                       
+##  CRAN (R 3.3.0)                                      
 ##  cran (@0.2.0)                                       
 ##  cran (@1.0.0)                                       
 ##  CRAN (R 3.3.2)                                      
+##  CRAN (R 3.3.2)                                      
+##  CRAN (R 3.3.2)                                      
 ##  CRAN (R 3.3.0)                                      
+##  CRAN (R 3.3.2)                                      
 ##  CRAN (R 3.3.0)                                      
 ##  CRAN (R 3.3.2)                                      
 ##  cran (@1.15.1)                                      
 ##  CRAN (R 3.3.3)                                      
 ##  CRAN (R 3.3.0)                                      
+##  CRAN (R 3.3.0)                                      
+##  CRAN (R 3.3.0)                                      
 ##  cran (@1.6.0)                                       
 ##  CRAN (R 3.3.0)                                      
+##  CRAN (R 3.3.3)                                      
 ##  CRAN (R 3.3.0)                                      
 ##  cran (@1.5-5)                                       
 ##  cran (@0.1.0)                                       
 ##  cran (@0.4.3)                                       
 ##  CRAN (R 3.3.3)                                      
 ##  CRAN (R 3.3.3)                                      
+##  CRAN (R 3.3.3)                                      
 ##  cran (@1.8.4)                                       
 ##  cran (@1.6.12)                                      
 ##  cran (@0.2.2)                                       
 ##  CRAN (R 3.3.0)                                      
+##  cran (@1.1-2)                                       
 ##  Github (RcppCore/Rcpp@0566d7c)                      
 ##  cran (@1.0.0)                                       
 ##  cran (@0.1.1)                                       
 ##  cran (@1.4.2)                                       
+##  CRAN (R 3.3.3)                                      
 ##  CRAN (R 3.3.3)                                      
 ##  CRAN (R 3.3.2)                                      
 ##  cran (@0.3.2)                                       
 ##  cran (@0.4.1)                                       
 ##  cran (@1.1.2)                                       
 ##  cran (@1.2.0)                                       
+##  CRAN (R 3.3.3)                                      
+##  CRAN (R 3.3.2)                                      
 ##  cran (@1.2)                                         
 ##  cran (@0.6.1)                                       
 ##  cran (@1.1.1)                                       
 ##  CRAN (R 3.3.0)                                      
 ##  cran (@1.1.1)                                       
 ##  cran (@2.1.14)</code></pre>
+</div>
 </div>
 
 
