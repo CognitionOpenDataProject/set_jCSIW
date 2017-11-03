@@ -6,7 +6,7 @@ output:
     toc_float: true
 ---
 
-#### Article ID: jCWSIW
+#### Article ID: jCSIW
 #### Pilot: Vivian Xiao
 #### Start date: 03/12/17
 #### End date: 03/12/17
@@ -273,7 +273,7 @@ effect17 = cohensD(BNCWrittenFreq_Content_Words_Log ~ Condition_0.Standard, data
 Here, we summarize the errors that we encountered in our reproduction of our analyses. 
 ```{r-report errors}
 codReport(Report_Type = 'pilot',
-          Article_ID = 'jCWSIW', 
+          Article_ID = 'jCSIW', 
           Insufficient_Information_Errors = 9,
           Decision_Errors = 0, 
           Major_Numerical_Errors = 1, 

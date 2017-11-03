@@ -6,7 +6,7 @@ output:
     toc_float: true
 ---
 
-#### Article ID: jCWSIW
+#### Article ID: jCSIW
 #### Pilot: Vivian Xiao
 #### Co-pilot: Tom Hardwicke  
 #### Start date: 03/12/17
@@ -331,7 +331,7 @@ We were able to successfully reproduce all target outcomes.
 
 ```{r}
 codReport(Report_Type = "joint",
-          Article_ID = "jCWSIW",
+          Article_ID = "jCSIW",
           Insufficient_Information_Errors = 0,
           Decision_Errors = 0,
           Major_Numerical_Errors = 0,
