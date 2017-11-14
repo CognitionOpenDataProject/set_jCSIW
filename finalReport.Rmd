@@ -300,7 +300,7 @@ reportObject <- compareValues2(reportedValue = "0.04", obtainedValue = sd_ttr3, 
 m_ttr4 = mean(d.tidy$type.token_ratio_TAACO[d.tidy$Condition_0.Standard == "1"])
 reportObject <- compareValues2(reportedValue = "0.44", obtainedValue = m_ttr4, valueType = 'mean')
 sd_ttr4 = sd(d.tidy$type.token_ratio_TAACO[d.tidy$Condition_0.Standard == "1"])
-reportObject <- compareValues2(reportedValue = "0.005", obtainedValue = sd_ttr4, valueType = 'sd')
+reportObject <- compareValues2(reportedValue = "0.05", obtainedValue = sd_ttr4, valueType = 'sd')
 
 d <- cohensD(d.tidy$type.token_ratio_TAACO[d.tidy$Condition_0.Standard == "0"], d.tidy$type.token_ratio_TAACO[d.tidy$Condition_0.Standard == "1"], method = 'raw')
 reportObject <- compareValues2(reportedValue = "0.46", obtainedValue = d, valueType = 'es')
